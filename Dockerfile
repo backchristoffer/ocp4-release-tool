@@ -1,3 +1,7 @@
-FROM registry.redhat.io/rhel8/python-36
+FROM centos/python-38-centos7
+WORKDIR /app
+COPY . .
+RUN pip3 install pipenv
 RUN pipenv install
-CMD ["pipenv", "run", "python3", "app.py"]
+ENTRYPOINT [ "python3" ]
+CMD ["app.py"]
