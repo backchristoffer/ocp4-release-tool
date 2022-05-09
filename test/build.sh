@@ -2,10 +2,14 @@
 set -e
 
 cd ..
-echo "Stopping ocp4test container"
-docker stop ocp4test
-echo "Removing old ocp4test container"
-docker rm ocp4test
+if docker ps -q -f name=ocp4test; then
+    echo "Stopping ocp4test container"
+    docker stop ocp4test
+    echo "Removing old ocp4test container"
+    docker rm ocp4test
+else
+    echo "No ocp4test running"
+fi;
 echo "Building ocp4-release-tool"
 docker build -t ocp4-release-tool .
 echo "Starting container ocp4test"
@@ -18,3 +22,5 @@ if curl -L -X GET http://localhost:5000; then
 else 
     echo "Test fail"
 fi;
+
+exit 0
